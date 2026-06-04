@@ -10,3 +10,4 @@ pymupdf
 sentence-transformers
 langchain-groq
 chainlit
+langsmith

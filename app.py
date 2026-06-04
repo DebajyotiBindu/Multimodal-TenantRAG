@@ -2,6 +2,7 @@ import chainlit as cl
 import os
 import sys
 import shutil
+from dotenv import load_dotenv
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 if current_dir not in sys.path:
@@ -16,6 +17,7 @@ from src.splitting import Splitter, Embedding
 import chromadb
 
 init_db()
+load_dotenv()
 
 VECTOR_DB_DIR = r"D:\mlproject19\Vector_Database"
 STATIC_IMAGE_DIR = r"D:\mlproject19\Static"

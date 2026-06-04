@@ -2,6 +2,7 @@ from groq import Groq
 from dotenv import load_dotenv
 import base64
 import os
+from langsmith import traceable
 
 # Function to encode the image
 def encode_image(image_path):
@@ -11,6 +12,7 @@ def encode_image(image_path):
 load_dotenv()
 
 #Function that make API calls for caption generation
+@traceable
 def caption_generator(base64_image):
 
     client = Groq()

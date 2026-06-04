@@ -4,6 +4,7 @@ from langchain_chroma import Chroma
 from src.splitting import Embedding
 from langchain_groq import ChatGroq
 from src.audit_db import init_db,log_rag_transaction
+from langsmith import traceable
 
 load_dotenv()
 
@@ -22,6 +23,8 @@ class retrieval:
         self.query=query
         self.embed_obj=Embedding()
         self.user_id=user_id
+    
+    @traceable
     def search(self):
         query_vector=self.embed_obj.text_embedding(chunks=self.query)[0]
         tenant_filter={'user_id':self.user_id}
@@ -54,6 +57,7 @@ class retrieval:
             print("Retrieval process has run into error",e)
             return [],[]
     
+    @traceable
     def llm_model(self):
         try:
             text_context,image_context=self.search()
