@@ -1,0 +1,142 @@
+import os
+from dotenv import load_dotenv
+from langchain_chroma import Chroma
+from src.splitting import Embedding
+from langchain_groq import ChatGroq
+from src.audit_db import init_db,log_rag_transaction
+
+load_dotenv()
+
+class retrieval:
+    def __init__(self,database_path,query:str,user_id:int):
+        self.text_vector_store=Chroma(
+            collection_name="Text_Collection",
+            persist_directory=database_path
+        )
+
+        self.image_vector_store=Chroma(
+            collection_name="Image_Collection",
+            persist_directory=database_path
+        )
+
+        self.query=query
+        self.embed_obj=Embedding()
+        self.user_id=user_id
+    def search(self):
+        query_vector=self.embed_obj.text_embedding(chunks=self.query)[0]
+        tenant_filter={'user_id':self.user_id}
+        try:
+            text_result=self.text_vector_store.similarity_search_by_vector(
+                query_vector,
+                k=1,
+                filter=tenant_filter
+            )
+
+            image_result=self.image_vector_store.similarity_search_by_vector(
+                query_vector,
+                k=1,
+                filter=tenant_filter
+            )
+            if text_result:
+                for res in text_result:
+                    print(f"* {res.page_content} [{res.metadata}]")
+            else:
+                print("No relevant text chunk found")
+            if image_result:
+                for res in image_result:
+                    print(f"* {res.page_content} [{res.metadata}]")
+            else:
+                print("No relevant image chunk found")
+
+            return text_result,image_result
+
+        except Exception as e:
+            print("Retrieval process has run into error",e)
+            return [],[]
+    
+    def llm_model(self):
+        try:
+            text_context,image_context=self.search()
+
+            text_data='\n'.join([doc.page_content for doc in text_context]) if text_context else "No contextual text found"
+            image_data=""
+            if image_context:
+                for doc in image_context:
+                    id=doc.metadata.get("filepath")
+                    image_data=image_data+f"image_path:{id}\nCaption:{doc.page_content}"
+            else:
+                image_data="No contextual image found"
+
+            system_prompt = """You are an advanced Multimodal RAG Assistant. Your primary goal is to provide accurate, grounded answers to user questions by synthesizing contextual payloads extracted from local vector databases.
+
+                ### Operational Constraints & Guardrails:
+                1. Strict Grounding: Rely ONLY on the provided [TEXT CONTEXT] and [IMAGE CONTEXT] inside the User message to formulate your answer. If the context does not contain enough data to answer the query, state clearly that you cannot find the answer in the source documents. Do not hallucinate or inject external knowledge.
+                2. Multimodal Tracking: When referencing information derived from an image caption, explicitly mention the corresponding file path or page location so the user knows which visual asset correlates with your point.
+                3. Citation Clarity: If page numbers or source document attributes are present in the text metadata, incorporate them seamlessly into your response (e.g., "According to Page 4...").
+                4. Tone: Maintain a professional, highly analytical, and direct engineering tone. Be concise and prioritize structural technical accuracy."""
+
+            human_message_content = f"""Context Datasets:
+               
+                [TEXT CONTEXT]
+                {text_data}
+
+                [IMAGE CONTEXT]
+                {image_data}
+                
+                User Query: {self.query}"""
+            
+            messages = [
+                (
+                    "system",
+                    system_prompt,
+                ),
+                ("human", human_message_content),
+            ]
+
+            llm=ChatGroq(
+                model="qwen/qwen3-32b",
+                temperature=0,
+                max_tokens=None,
+                reasoning_format="parsed",
+                timeout=None,
+                max_retries=2,
+            )
+            response=llm.invoke(messages)
+            
+            log_rag_transaction(
+                user_id=self.user_id,
+                query=self.query,
+                response=response.content,
+                text_context=text_context,
+                image_context=image_context
+            )
+            print("Logs saved")
+            return response
+
+        except Exception as e:
+            log_rag_transaction(
+                user_id=self.user_id,
+                query=self.query,
+                response="Error in response",
+                text_context=text_context,
+                image_context=image_context
+            )
+            print("Logs saved")
+            print("Model couldnot be initialized",e)
+
+def main():
+    init_db()
+    while True:
+        query=input()
+        if(query=="q"):
+            break
+        database_path=r"D:\mlproject19\Vector_Database"
+        retrieve_obj=retrieval(database_path=database_path,query=query,user_id=1)
+
+        response=retrieve_obj.llm_model()
+        print(response.content)
+
+    return 
+
+if __name__=="__main__":
+    main()
