@@ -24,7 +24,7 @@ An asynchronous, multi-tenant Multimodal RAG (Retrieval-Augmented Generation) pi
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```text
 ├── COMPONENTS/
@@ -37,32 +37,35 @@ An asynchronous, multi-tenant Multimodal RAG (Retrieval-Augmented Generation) pi
 ├── app.py                  # Core asynchronous Chainlit websocket app entry point
 ├── .env                    # Local runtime secret configurations (GROQ_API_KEY)
 └── README.md               # Repository documentation
+```
 
 # Technical Setup & Installation
 
 ## 1. Clone the Workspace
-'''
+```
 git clone [https://github.com/YOUR_USERNAME/Multimodal-TenantRAG.git](https://github.com/YOUR_USERNAME/Multimodal-TenantRAG.git)
 cd Multimodal-TenantRAG
-'''
+```
+
 ## 2. Configure Local Environment Constraints
 Create a .env file in the root directory and add your Groq API credentials:
 
-code-
-'''
+Inside .env file-
+```
 GROQ_API_KEY=gsk_your_api_token_here
-'''
+```
+
 ## 3. Verify Local File System Mount Paths
 Open app.py and ensure the configurable absolute local runtime directory references align with your development environment drive mounting schema:
 
-'''
+```
 VECTOR_DB_DIR = r"D:\mlproject19\Vector_Database"
 STATIC_IMAGE_DIR = r"D:\mlproject19\Static"
 TEMP_DATA_DIR = r"D:\mlproject19\data"
-'''
+```
 
 ## 4. Execute the Application Instance
 Boot the asynchronous engine over local websockets:
-'''
+```
 chainlit run app.py
-'''
+```
