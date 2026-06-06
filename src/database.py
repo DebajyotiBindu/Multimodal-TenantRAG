@@ -5,6 +5,21 @@ from loaders import ImageLoader
 import chromadb
 
 class DataBase:
+    '''
+    This class is useful for the creation of vector database and storing the vectorized chunks into it.
+    This is done to facilitate the retrieval process of the RAG system.
+    Functions:
+        text_vector()- This function is useful for storing the vectorized text chunks into the vector database.
+        Args:
+            file_path- string specifying the path to the root directory
+            user_id- integer specifying the user id for which the vector database is being created.
+
+        image_vector()- This function is useful for storing the vectorized image chunks into the vector database.
+        Args:
+            file_path- string specifying the path to the root directory
+            user_id- integer specifying the user id for which the vector database is being created.
+
+    '''
     def __init__(self,file_path,user_id):
         self.client=chromadb.PersistentClient(path=file_path)
         self.user_id=user_id
@@ -79,6 +94,12 @@ class DataBase:
         except Exception as e:
             print("Image Collection can't be made",e)
 
+'''
+The details function is used to extract the text and image data from the root directory, generate captions for the images,
+and embed both the text and image data. It returns a dictionary containing the image metadata and their corresponding caption vectors, 
+the embedded text chunks, and the original text chunks. 
+This function is called in the __init__ method of the DataBase class to initialize the necessary data for creating the vector database.
+'''
 def details():
     file_path=r"D:\mlproject19\data"
     split_obj=Splitter()
