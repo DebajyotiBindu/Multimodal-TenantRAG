@@ -1,0 +1,16 @@
+version: "3.9"
+
+services:
+  rag:
+    container_name: rag
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./Vector_Database:/app/Vector_Database
+      - ./Static:/app/Static
+      - ./data:/app/data
+    env_file:
+      - .env
+    restart: always
+

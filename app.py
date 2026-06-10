@@ -19,9 +19,9 @@ import chromadb
 init_db()
 load_dotenv()
 
-VECTOR_DB_DIR = r"D:\mlproject19\Vector_Database"
-STATIC_IMAGE_DIR = r"D:\mlproject19\Static"
-TEMP_DATA_DIR = r"D:\mlproject19\data"
+VECTOR_DB_DIR = "./Vector_Database"
+STATIC_IMAGE_DIR = "./Static"
+TEMP_DATA_DIR = "./data"
 
 
 os.makedirs(VECTOR_DB_DIR, exist_ok=True)
