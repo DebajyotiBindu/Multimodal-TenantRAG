@@ -46,7 +46,7 @@ An asynchronous, multi-tenant Multimodal RAG (Retrieval-Augmented Generation) pi
 
 ## 1. Clone the Workspace
 ```
-git clone [https://github.com/DebajyotiBindu/Multimodal-TenantRAG.git](https://github.com/DebajyotiBindu/Multimodal-TenantRAG.git)
+git clone https://github.com/DebajyotiBindu/Multimodal-TenantRAG.git
 cd Multimodal-TenantRAG
 ```
 
@@ -59,12 +59,12 @@ GROQ_API_KEY=gsk_your_api_token_here
 ```
 
 ## 3. Verify Local File System Mount Paths
-Open app.py and ensure the configurable absolute local runtime directory references align with your development environment drive mounting schema:
+Open app.py and make sure the configurable absolute local runtime directory references align with your development environment drive mounting schema:
 
 ```
-VECTOR_DB_DIR = r"D:\mlproject19\Vector_Database"
-STATIC_IMAGE_DIR = r"D:\mlproject19\Static"
-TEMP_DATA_DIR = r"D:\mlproject19\data"
+VECTOR_DB_DIR = "./Vector_Database"
+STATIC_IMAGE_DIR = "./Static"
+TEMP_DATA_DIR = "./data"
 ```
 
 ## 4. Execute the Application Instance
