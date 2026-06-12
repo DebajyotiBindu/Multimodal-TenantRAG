@@ -32,11 +32,14 @@ An asynchronous, multi-tenant Multimodal RAG (Retrieval-Augmented Generation) pi
 ├── src/
 │   ├── loaders.py          # Custom TextLoader and ImageLoader for extraction parsing
 │   ├── splitting.py        # Recursive chunk partitioning and HuggingFace token embedding
+|   ├── database.py          # Creates a chroma database in peristent directory and stores the chunks and their embeddings for retrieval
 │   ├── audit_db.py         # SQLAlchemy relational schema models and transaction logger
 │   └── retrieval.py        # Multi-tenant filtering vector search and LLM invocation routing
 ├── app.py                  # Core asynchronous Chainlit websocket app entry point
-├── .env                    # Local runtime secret configurations (GROQ_API_KEY)
-└── README.md               # Repository documentation
+├── Dockerfile
+├── Docker-compose.yaml
+├── requirements.txt          
+└── README.md               
 ```
 
 # Technical Setup & Installation
