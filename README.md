@@ -46,7 +46,7 @@ An asynchronous, multi-tenant Multimodal RAG (Retrieval-Augmented Generation) pi
 
 ## 1. Clone the Workspace
 ```
-git clone [https://github.com/YOUR_USERNAME/Multimodal-TenantRAG.git](https://github.com/YOUR_USERNAME/Multimodal-TenantRAG.git)
+git clone [https://github.com/DebajyotiBindu/Multimodal-TenantRAG.git](https://github.com/DebajyotiBindu/Multimodal-TenantRAG.git)
 cd Multimodal-TenantRAG
 ```
 
