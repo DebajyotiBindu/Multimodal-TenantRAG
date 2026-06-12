@@ -56,6 +56,8 @@ Create a .env file in the root directory and add your Groq API credentials:
 Inside .env file-
 ```
 GROQ_API_KEY=gsk_your_api_token_here
+LANGSMITH_TRACING=true
+LANGSMITH_API_KEY="your-langsmith-api-key"
 ```
 
 ## 3. Verify Local File System Mount Paths
