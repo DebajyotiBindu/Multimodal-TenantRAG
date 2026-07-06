@@ -1,4 +1,4 @@
-# Multimodal-TenantRAG
+# ResearchPilot: Multimodal-TenantRAG
 
 An asynchronous, multi-tenant Multimodal RAG (Retrieval-Augmented Generation) pipeline engineered with LangChain, ChromaDB, and Groq. The system processes unstructured technical documents containing interleaved layout structures (text chunks and diagrams) and isolates them strictly per-session, utilizing an SQLite relational data layer to maintain a comprehensive, audit-ready transaction log.
 
