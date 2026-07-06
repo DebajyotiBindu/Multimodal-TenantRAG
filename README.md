@@ -26,13 +26,13 @@ An asynchronous, multi-tenant Multimodal RAG (Retrieval-Augmented Generation) pi
 
 ## Benchmark Results
 
-Generator: Qwen3-32B
-Caption Model: Llama-4-Scout-17B
+* Generator: Qwen3-32B
+* Caption Model: Llama-4-Scout-17B
 
-Retrieval Latency: 0.62 s
-Generation Latency: 1.40 s
-Caption Generation: 1.34–9.40 s
-Average Tokens: 1342–1774
+* Retrieval Latency: 0.62 s
+* Generation Latency: 1.40 s
+* Caption Generation: 1.34–9.40 s
+* Average Tokens: 1342–1774
 
 ## Project Structure
 
